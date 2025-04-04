@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Random Rants - File storage server</title>
+  </head>
+
+  <body style="font-family: arial; background: white">
+    <style>
+      code {
+        background: #dbdbdb;
+        border-radius: 2px;
+      }
+    </style>
+
+    <p>
+      <img
+        src="https://randomrants.glitch.me/random-rants-logo-text.png"
+        alt="Random Rants Logo"
+      />
+    </p>
+    <h1 id="random-rants-file-storage-server">
+      Random Rants - File Storage Server
+    </h1>
+    <p>This is where Random Rants stores user media and other user content.</p>
+    <h2 id="upload-api-v1-">Upload API (V1)</h2>
+    <p>A file is stored on the server using a POST request.</p>
+    <p>
+      Send the request to <code>/uploadfile</code> with the body being something
+      like
+      <code
+        >{ &quot;data&quot;: &quot;(base64 here)&quot;, &quot;contentType&quot;:
+        &quot;text/plain&quot; }</code
+      >
+    </p>
+    <p>
+      <strong
+        ><em
+          >It can overload the server if the request is large enough.</em
+        ></strong
+      >
+    </p>
+    <p>
+      Response will be like:
+      <code
+        >{ &quot;id&quot;: &quot;123&quot;, &quot;key&quot;: &quot;abc123&quot;
+        }</code
+      >
+    </p>
+    <p>Only use this to upload small files now.</p>
+    <b>NOTICE: This version of the API is deprecated and no longer enabled on the server by default.</b>
+    <h2 id="upload-api-v2-">Upload API (V2)</h2>
+    <p>
+      This is made with the FormData API in mind, also to allow loading larger
+      files. One file can be sent per request.
+    </p>
+    <p>
+      Send the request to <code>/uploadfilev2</code> to upload, make sure its
+      POST as well.
+    </p>
+    <p>Responds same as API V1.</p>
+    <h2 id="download-api">Download API</h2>
+    <p>
+      Once the server responds with the right response JSON, you can request
+      like <code>/file/123/abc123</code>.
+    </p>
+    <p>
+      <code>123</code> being the id, and <code>abc123</code> being the key. Note
+      this is not a real file, a real file request would have the key be random
+      numbers and letters and the ID whatever the files number in the storage
+      is.
+    </p>
+    <h2 id="security-warning">Security warning</h2>
+    <p>
+      No encryption is used on the files or metadata for them. This means that
+      if someone has access to the Firebase storage bucket, they can see any
+      file you send. Now all though I avoid trying to look into files sent, and
+      even if I do, I will still avoid talking about them publically. As long as
+      you avoid sending the Firebase storage bucket, you can not view the files
+      directly off this server unless a key in the url is specified.
+    </p>
+    <h2 id="notice-">Notice:</h2>
+    <p>
+      You must have a Google account to run this server, it needs to be able to
+      contain a Firebase storage server.
+    </p>
+  </body>
+</html>
