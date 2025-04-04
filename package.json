@@ -1,0 +1,21 @@
+{
+  "name": "randomrants-filestore-api",
+  "version": "0.1.0",
+  "description": "Random Rants server for storing user media.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "gvbbase-storage": "^1.1.0",
+    "http": "^0.0.0",
+    "ws": "^8.18.0",
+    "busboy": "^1.6.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch"
+  ]
+}
