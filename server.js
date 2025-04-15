@@ -502,6 +502,7 @@ var server = http.createServer(async (req, res) => {
               "content-range",
               "accept-ranges",
               "content-range",
+              "content-length", //Add content-length header to provide how much content needs to be downloaded.
             ]
           );
           var buffer = obj.buffer;
