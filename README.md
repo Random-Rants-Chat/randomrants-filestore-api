@@ -1,5 +1,12 @@
 ![Random Rants Logo](https://randomrants.glitch.me/random-rants-logo-text.png)
 
+# MIGRATION NOTICE
+
+Random rants filestore has migrated to supabase because of the free limitations on google's firebase storage.
+This is so there is no cutoff on random rant's filestore's uploading during the transition from googles appspot storage, but all files have been kept on the original bucket from the server because of this migration.
+You won't be able to find your old files any more and there is a file count limit as well. (you can only upload 18 files before the server resets its counter and all new files uploaded will overwrite the old ones and require new keys)
+New enviroment variables required are on the bottom of this readme.
+
 # Random Rants - File Storage Server
 
 This is where Random Rants stores user media and other user content.
@@ -49,12 +56,10 @@ Once the server responds with the right response JSON, you can request like ``/f
 
 ``123`` being the id, and ``abc123`` being the key. Note this is not a real file, a real file request would have the key be random numbers and letters and the ID whatever the files number in the storage is.
 
-## Security warning
+## Preparing Supabase enviroment variables
 
-No encryption is used on the files or metadata for them. This means that if someone has access to the Firebase storage bucket, they can see any file you send.
-Now all though I avoid trying to look into files sent, and even if I do, I will still avoid talking about them publically.
-As long as you avoid sending the Firebase storage bucket, you can not view the files directly off this server unless a key in the url is specified.
+Create a Supabase project and provide the following enviroment vairales:
 
-## Notice:
-
-You must have a Google account to run this server, it needs to be able to contain a Firebase storage server.
+* sbBucket: Your Supabase storage bucket
+* sbAPIKey: Your Supabase secret key or api key (I recommend secret key)
+* sbURL: Your Supabase project url (Needs to be like `https://projectid.supabase.co`)

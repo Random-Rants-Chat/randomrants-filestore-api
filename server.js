@@ -1,5 +1,5 @@
 var gvbbaseStorage = require("./storage.js");
-var storage = new gvbbaseStorage(process.env.db);
+var storage = new gvbbaseStorage(process.env.sbBucket,process.env.sbURL,process.env.sbAPIKey);
 
 var Busboy = require("busboy");
 
@@ -12,8 +12,9 @@ var URL = require("url");
 
 var ws = require("ws");
 //Sizes are in bytes.
-var maxFileCachingSize = 0; //Don't cache files anymore.
-var maxFileUploadSize = 1e+8; //100mb max
+var maxFileCount = 16; //How many files are stored until the count drops back to zero.
+var maxFileCachingSize = 0; //No more caching.
+var maxFileUploadSize = 5e+7; //100mb max
 var fileCache = {};
 var statusWebsockets = {};
 
@@ -417,6 +418,9 @@ var server = http.createServer(async (req, res) => {
             var filecountbuffer = await storage.downloadFile("filecount.txt");
             var count = Number(filecountbuffer.toString());
             count += 1;
+            if (count > maxFileCount) {
+              count = 0;
+            }
             var uploadID = count;
           } catch (e) {
             var count = 1;
