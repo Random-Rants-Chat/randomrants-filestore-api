@@ -9,6 +9,8 @@
       code {
         background: #dbdbdb;
         border-radius: 2px;
+        padding: 4px 4px;
+        font-family: monospace;
       }
     </style>
 
@@ -18,11 +20,26 @@
         alt="Random Rants Logo"
       />
     </p>
-    <h1 id="random-rants-file-storage-server">
+    <h1 id="migration-notice">MIGRATION NOTICE</h1>
+    <p>
+      Random rants filestore has migrated to supabase because of the free
+      limitations on google&#39;s firebase storage. This is so there is no
+      cutoff on random rant&#39;s filestore&#39;s uploading during the
+      transition from googles appspot storage, but all files have been kept on
+      the original bucket from the server because of this migration. You
+      won&#39;t be able to find your old files any more and there is a file
+      count limit as well. (you can only upload 18 files before the server
+      resets its counter and all new files uploaded will overwrite the old ones
+      and require new keys) New enviroment variables required are on the bottom
+      of this readme.
+    </p>
+    <h1 id="random-rants---file-storage-server">
       Random Rants - File Storage Server
     </h1>
     <p>This is where Random Rants stores user media and other user content.</p>
-    <h2 id="upload-api-v1-">Upload API (V1)</h2>
+    <h2 id="upload-api-v1-disabled-by-default">
+      Upload API (V1) [Disabled by default]
+    </h2>
     <p>A file is stored on the server using a POST request.</p>
     <p>
       Send the request to <code>/uploadfile</code> with the body being something
@@ -33,10 +50,10 @@
       >
     </p>
     <p>
-      <strong
-        ><em
-          >It can overload the server if the request is large enough.</em
-        ></strong
+      <em
+        ><strong
+          >It can overload the server if the request is large enough.</strong
+        ></em
       >
     </p>
     <p>
@@ -47,8 +64,13 @@
       >
     </p>
     <p>Only use this to upload small files now.</p>
-    <b>NOTICE: This version of the API is deprecated and no longer enabled on the server by default.</b>
-    <h2 id="upload-api-v2-">Upload API (V2)</h2>
+    <p>
+      <strong
+        >NOTICE: This version of the API is deprecated and no longer enabled on
+        the server by default.</strong
+      >
+    </p>
+    <h2 id="upload-api-v2">Upload API (V2)</h2>
     <p>
       This is made with the FormData API in mind, also to allow loading larger
       files. One file can be sent per request.
@@ -58,6 +80,12 @@
       POST as well.
     </p>
     <p>Responds same as API V1.</p>
+    <h2 id="upload-limitations">Upload Limitations</h2>
+    <p>
+      One file can be uploaded at once, if multiple then it would be paused
+      until the other file is uploaded. This is to prevent possible interference
+      with other files. Not an intentional limitation.
+    </p>
     <h2 id="download-api">Download API</h2>
     <p>
       Once the server responds with the right response JSON, you can request
@@ -69,19 +97,21 @@
       numbers and letters and the ID whatever the files number in the storage
       is.
     </p>
-    <h2 id="security-warning">Security warning</h2>
+    <h2 id="preparing-supabase-enviroment-variables">
+      Preparing Supabase enviroment variables
+    </h2>
     <p>
-      No encryption is used on the files or metadata for them. This means that
-      if someone has access to the Firebase storage bucket, they can see any
-      file you send. Now all though I avoid trying to look into files sent, and
-      even if I do, I will still avoid talking about them publically. As long as
-      you avoid sending the Firebase storage bucket, you can not view the files
-      directly off this server unless a key in the url is specified.
+      Create a Supabase project and provide the following enviroment vairales:
     </p>
-    <h2 id="notice-">Notice:</h2>
-    <p>
-      You must have a Google account to run this server, it needs to be able to
-      contain a Firebase storage server.
-    </p>
+    <ul>
+      <li>sbBucket: Your Supabase storage bucket</li>
+      <li>
+        sbAPIKey: Your Supabase secret key or api key (I recommend secret key)
+      </li>
+      <li>
+        sbURL: Your Supabase project url (Needs to be like
+        <code>https://projectid.supabase.co</code>)
+      </li>
+    </ul>
   </body>
 </html>
